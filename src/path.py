@@ -4,7 +4,7 @@ import os
 abs_path_current_file=os.path.abspath(__file__)
 
 #Get the root directory
-root_dir=os.path.dirname(os.path.dirname(os.path.dirname(abs_path_current_file)))
+root_dir = os.path.dirname(os.path.dirname(abs_path_current_file))
 
 #Get project directory
 project_dir=os.path.dirname(os.path.dirname(root_dir))
