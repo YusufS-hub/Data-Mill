@@ -1,54 +1,69 @@
 import pandas as pd
-import extract as e
-from path import csv_file
 
-path = csv_file
-df = e.extract_data(path)
-
-def clean_data(df:pd.DataFrame):
+def clean_data(df: pd.DataFrame):
+    if df is None:
+        return None
     try:
         df = df.copy()
         df.dropna(inplace=True)
         df.drop_duplicates(inplace=True)
-        clean_df = df
+        return df
     except Exception as e:
         print('Error cleaning data: ', e)
         return None
-    return clean_df
 
 def clean_names(df: pd.DataFrame):
-    cleaned_names = df['name'].str.strip().str.replace(r'[0-9°\$£#!:;$%^&*().<>]', '', regex=True)
+    if df is None or 'name' not in df.columns:
+        return df
     df = df.copy()
-    df['name'] = cleaned_names
+    df['name'] = df['name'].astype(str).str.strip().str.replace(r'[0-9°\$£#!:;$%^&*().<>]', '', regex=True)
     return df
 
 def clean_genre(df: pd.DataFrame):
-    cleaned_genre = df['genre'].str.strip().str.replace(r'[,]', ' - ', regex=True)
+    if df is None or 'genre' not in df.columns:
+        return df
     df = df.copy()
-    df['genre'] = cleaned_genre
+    df['genre'] = df['genre'].astype(str).str.strip().str.replace(r'[,]', ' - ', regex=True)
     return df
 
 def clean_episodes(df: pd.DataFrame):
-    cleaned_epi = df['episodes'].str.strip().str.replace(r'[eps]', '', regex=True)
+    if df is None or 'episodes' not in df.columns:
+        return df
     df = df.copy()
-    df['episodes'] = cleaned_epi
+    df['episodes'] = df['episodes'].astype(str).str.strip().str.replace(r'[eps]', '', regex=True)
     df = df.fillna(value=pd.NA)
     return df
 
-def clean_rating(df:pd.DataFrame):
-    cleaned_rating = df['rating'].str.strip().str.replace(r'[/10]', '', regex=True)
+def clean_rating(df: pd.DataFrame):
+    if df is None or 'rating' not in df.columns:
+        return df
     df = df.copy()
-    df['rating'] = cleaned_rating
+    df['rating'] = df['rating'].astype(str).str.strip().str.replace(r'[/10]', '', regex=True)
     df = df.fillna(value=pd.NA)
     return df
 
+def clean_members(df: pd.DataFrame):
+    if df is None or 'members' not in df.columns:
+        return df
+    df = df.copy()
+    df['members'] = df['members'].astype(str).str.lstrip().str.replace(r'[members]', '', regex=True)
+    return df
 
-df = clean_names(df)
-df = clean_genre(df)
-df = clean_episodes(df)
-df = clean_rating(df)
+def transformed_anime(df: pd.DataFrame):
+    df = clean_data(df)
+    df = clean_names(df)
+    df = clean_genre(df)
+    df = clean_episodes(df)
+    df = clean_rating(df)
+    df = clean_members(df)
+    return df
 
-print(df)
+def run_transform(csv_path):
+    import extract as e
+    df = e.extract_data(csv_path)
+    df = transformed_anime(df)
+    print(df)
+    return df
 
 
     

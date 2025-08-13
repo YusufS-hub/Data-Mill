@@ -2,3 +2,4 @@ pandas
 dotenv
 streamlit
 pytest
+sqlalchemy
