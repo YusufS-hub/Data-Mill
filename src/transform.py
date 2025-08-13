@@ -40,6 +40,7 @@ def clean_rating(df: pd.DataFrame):
     df = df.copy()
     df['rating'] = df['rating'].astype(str).str.strip().str.replace(r'[/10]', '', regex=True)
     df = df.fillna(value=pd.NA)
+    df['rating'] = pd.to_numeric(df['rating'].astype(str).str.replace('/10', '', regex=False), errors='coerce')
     return df
 
 def clean_members(df: pd.DataFrame):
