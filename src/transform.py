@@ -35,9 +35,18 @@ def clean_episodes(df: pd.DataFrame):
     df = df.fillna(value=pd.NA)
     return df
 
+def clean_rating(df:pd.DataFrame):
+    cleaned_rating = df['rating'].str.strip().str.replace(r'[/10]', '', regex=True)
+    df = df.copy()
+    df['rating'] = cleaned_rating
+    df = df.fillna(value=pd.NA)
+    return df
+
+
 df = clean_names(df)
 df = clean_genre(df)
 df = clean_episodes(df)
+df = clean_rating(df)
 
 print(df)
 
