@@ -49,12 +49,21 @@ def clean_members(df: pd.DataFrame):
     df['members'] = df['members'].astype(str).str.lstrip().str.replace(r'[members]', '', regex=True)
     return df
 
+def clean_type(df: pd.DataFrame):
+    if df is None or 'type' not in df.columns:
+        return df
+    df = df.copy()
+    df['type'] = df['type'].astype(str).str.strip().str.replace(r'[,]', ' - ', regex=True)
+    return df
+
+
 def transformed_anime(df: pd.DataFrame):
     df = clean_data(df)
     df = clean_names(df)
     df = clean_genre(df)
     df = clean_episodes(df)
     df = clean_rating(df)
+    df = clean_type(df)
     df = clean_members(df)
     return df
 

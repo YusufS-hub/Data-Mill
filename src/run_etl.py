@@ -21,6 +21,6 @@ for file in csv_files:
     # Step 3: Load data into DB
     l.load_dataframe(
         'clean_anime',
-        ['anime_id', 'anime_name', 'genre_name', 'episodes_number', 'rating', 'members'],
+        ['anime_id', 'anime_name', 'genre_name', 'anime_type', 'episodes_number', 'rating', 'members'],
         clean_anime_data
     )

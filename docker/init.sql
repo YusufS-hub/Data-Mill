@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS clean_anime (
     anime_id INT GENERATED ALWAYS AS IDENTITY,
     anime_name VARCHAR(255) NOT NULL,
     genre_name VARCHAR(255),
+    anime_type VARCHAR(255),
     episodes_number INTEGER,
     rating FLOAT,
     members INTEGER,

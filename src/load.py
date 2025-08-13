@@ -11,7 +11,7 @@ def load_dataframe(table_name: str, column_names: list[str], data: pd.DataFrame)
     user_name = os.environ.get("POSTGRES_USER")
     user_password = os.environ.get("POSTGRES_PASSWORD")
 
-    conn_string = f'postgresql+psycopg://{user_name}:{user_password}@{host_name}:5432/{database_name}'
+    conn_string = f'postgresql+psycopg2://{user_name}:{user_password}@{host_name}:5432/{database_name}'
     engine = sqlalchemy.create_engine(conn_string)
 
     data.columns = column_names
