@@ -58,6 +58,21 @@ def clean_type(df: pd.DataFrame):
     return df
 
 
+def remove_genre(df: pd.DataFrame):
+    if df is None:
+        return df
+    # Remove rows where 'hentai' is mentioned in 'genre' or 'name' columns (case-insensitive)
+    mask = pd.Series([False]*len(df))
+    if 'genre' in df.columns:
+        mask = mask | df['genre'].astype(str).str.lower().str.contains('Hentai', na=False)
+    if 'name' in df.columns:
+        mask = mask | df['name'].astype(str).str.lower().str.contains('Hentai', na=False)
+    # Remove rows where 'hentai' is mentioned in any column
+    for col in df.columns:
+        mask = mask | df[col].astype(str).str.lower().str.contains('hentai', na=False)
+    df = df[~mask].reset_index(drop=True)
+    return df
+
 def transformed_anime(df: pd.DataFrame):
     df = clean_data(df)
     df = clean_names(df)
@@ -66,6 +81,7 @@ def transformed_anime(df: pd.DataFrame):
     df = clean_rating(df)
     df = clean_type(df)
     df = clean_members(df)
+    df = remove_genre(df)
     return df
 
 def run_transform(csv_path):
