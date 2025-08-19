@@ -90,6 +90,3 @@ def run_transform(csv_path):
     df = transformed_anime(df)
     print(df)
     return df
-
-
-    
